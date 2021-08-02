@@ -1,16 +1,10 @@
-const jsonServer = require('json-server');
-// const fs = require('fs');
-const bodyParser = require('body-parser');
-// const jwt = require('jsonwebtoken');
+import jsonServer from 'json-server';
+import bodyParser from 'body-parser';
+
+import userRoutes from './routes/user';
 
 const server = jsonServer.create();
-const router = jsonServer.router('./db.json');
-// const userdb = JSON.parse(fs.readFileSync('./users.json', 'UTF-8'));
-
-server.use(bodyParser.urlencoded({extended: true}));
-server.use(bodyParser.json());
-
-const port = process.env.PORT || 5000;
+const router = jsonServer.router('db.json');
 
 server.db = router.db;
 
@@ -21,8 +15,12 @@ server.db = router.db;
 //     products: 644,
 // });
 
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
+server.use(userRoutes);
 server.use(router);
 
+const port = process.env.PORT || 5000;
 server.listen(port, () => {
-    console.log('Running');
+    console.log(`Running on port ${port}`);
 });
