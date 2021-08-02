@@ -1,20 +1,21 @@
 import bcrypt from "bcrypt";
 import fs from "fs";
 import express from "express";
+import multer from "multer";
 
 import { findUserByEmail, generateToken } from "../../utils";
-import { fileOption } from "../../constants";
-import multer from "multer";
+import { fileOption, imagePath } from "../../constants";
+import { User } from "../../models/user";
 
 const router = express.Router();
 const db = JSON.parse(fs.readFileSync('./db.json', fileOption).toString());
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './uploads/');
+    cb(null, `./${imagePath}/`);
   },
   filename: function(req, file, cb) {
-    cb(null, new Date().toISOString() + file.originalname);
+    cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
   }
 });
 
@@ -28,11 +29,11 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage: storage,
+  storage,
   limits: {
     fileSize: 1024 * 1024 * 5
   },
-  fileFilter: fileFilter
+  fileFilter
 });
 
 router.post('/login', (req, res) => {
@@ -71,8 +72,14 @@ router.post('/login', (req, res) => {
   });
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", upload.single('userImage'), (req, res) => {
   const { email, password, name = '', isAdmin = false } = req.body;
+  let imageName;
+
+  if (req.file && req.file.filename) {
+    imageName = req.file.filename;
+  }
+
   if (!email || !password) {
     return res.status(400).json({
       message: "Email and password are required"
@@ -92,13 +99,7 @@ router.post("/register", (req, res) => {
           error: err
         });
       } else {
-        const newUser = {
-          id: db.users.length + 1,
-          email,
-          password: hashedPass,
-          name,
-          isAdmin,
-        };
+        const newUser = new User(email, hashedPass, name, isAdmin, imageName);
 
         db.users.push(newUser);
         const fileContent = JSON.stringify(db);

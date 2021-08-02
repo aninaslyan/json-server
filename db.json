@@ -2,24 +2,55 @@
   "users": [
     {
       "id": 1,
-      "email": "test8@gmail.com",
-      "password": "$2b$10$kv8hmZ6g0lQDr9n4KUJOyuDd20ACUWp255Giyjz3vtwn8FxOFujTG",
+      "email": "test912@gmail.com",
+      "password": "$2b$10$ySLUHD4y29Reom7kuBi8wuBD3Z8PTAacTjwpG1/ypMbjVoNDgvG4u",
       "name": "",
-      "isAdmin": false
+      "isAdmin": "true"
     },
     {
       "id": 2,
       "email": "test@gmail.com",
-      "password": "$2b$10$TqvYZ3VjKzgbvoV9SjvtquP7HyW2x1lkn6YTp73TyH89KKWOQFQUu",
+      "password": "$2b$10$Oik1F0kFsjAcvyj5Nx6Th.u9SG1WJjnc.jC0Iez711RpewGRW/pla",
       "name": "",
-      "isAdmin": false
+      "isAdmin": "true"
     },
     {
       "id": 3,
       "email": "test1@gmail.com",
-      "password": "$2b$10$UBuBo/sPvomyu/GeygPJvumOA/wKv.Y78h37vlSNXAZtfuwVXf0Ji",
+      "password": "$2b$10$0ZvqFccNoR49TJvc0n4jT.3FHkj7ljXaPkhfq0WrLjVA7LPHHjTXm",
       "name": "",
-      "isAdmin": true
+      "isAdmin": "true",
+      "userImage": "http://localhost:5000/images\\uploadedImages\\userImage-1627899014739-1.png"
+    },
+    {
+      "id": 4,
+      "email": "test12@gmail.com",
+      "password": "$2b$10$rDQviZNOc5HWimORO2THI.OvZavKkNO5Ecy2hfS/cAtqLUGxgY3CS",
+      "name": "",
+      "isAdmin": "true",
+      "userImage": "http://localhost:5000/images/uploadedImages/userImage-1627899302420-1.png"
+    },
+    {
+      "id": 5,
+      "email": "test182@gmail.com",
+      "password": "$2b$10$ycG0YG80vjHHFt5OA3nbn.KAsNlNBvcopP4bBSBNDJjfiaV358cma",
+      "name": "",
+      "isAdmin": "true"
+    },
+    {
+      "id": 6,
+      "email": "test1852@gmail.com",
+      "password": "$2b$10$F.6/OWfCzBt9Ltwp6qZax.IJC7PyYfOeWow5BCRogNYdLPRwP8r1q",
+      "name": "",
+      "isAdmin": "true"
+    },
+    {
+      "id": 7,
+      "email": "test18552@gmail.com",
+      "password": "$2b$10$Tchsg/Q558O1jH.wpBg4guJI99rFRpLfnUicoo76hw7oKf7Bu97Z.",
+      "name": "",
+      "isAdmin": "true",
+      "userImage": "http://localhost:5000/images/uploadedImages/userImage-1627899897460-1.png"
     }
   ],
   "products": [
