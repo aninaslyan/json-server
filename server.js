@@ -1,7 +1,8 @@
 import jsonServer from 'json-server';
 import bodyParser from 'body-parser';
 
-import userRoutes from './routes/user';
+import authRoutes from './routes/user/authentication';
+import userRoutes from './routes/user/users';
 
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
@@ -17,7 +18,10 @@ server.db = router.db;
 
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
-server.use(userRoutes);
+
+// routes
+server.use(authRoutes);
+server.use('/users', userRoutes);
 server.use(router);
 
 const port = process.env.PORT || 5000;

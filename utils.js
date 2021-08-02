@@ -1,9 +1,9 @@
 import fs from "fs";
 import jwt from "jsonwebtoken";
 
-import { expiresIn, secret_key } from "./constants";
+import { expiresIn, fileOption, secret_key } from "./constants";
 
-const db = JSON.parse(fs.readFileSync('./db.json', 'UTF-8'));
+const db = JSON.parse(fs.readFileSync('./db.json', fileOption).toString());
 
 export const findUserByEmail = (email) => {
     return db.users.find(user => user.email === email);
@@ -22,4 +22,31 @@ export const generateToken = (email, id, isAdmin, name) => {
       expiresIn
     }
   );
+}
+
+export const verifyToken = (token) => {
+  return jwt.verify(token, secret_key);
+}
+
+export const authenticateByToken = (req, res, next) => {
+  const bearerToken = req.headers['x-access-token'] || req.headers['authorization'];
+  const token = bearerToken.replace(/^Bearer\s+/, "");
+
+  if (token) {
+    jwt.verify(token, secret_key, (err, decoded) => {
+      if (err) {
+        return res.json({
+          success: false,
+          message: 'Token is not valid'
+        });
+      }
+      req.decoded = decoded;
+      // next();
+    });
+  } else {
+    return res.json({
+      success: false,
+      message: 'Token not provided'
+    });
+  }
 }

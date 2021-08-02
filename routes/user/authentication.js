@@ -2,11 +2,38 @@ import bcrypt from "bcrypt";
 import fs from "fs";
 import express from "express";
 
-import { findUserByEmail, generateToken } from "../utils";
-import { fileOption } from "../constants";
+import { findUserByEmail, generateToken } from "../../utils";
+import { fileOption } from "../../constants";
+import multer from "multer";
 
 const router = express.Router();
 const db = JSON.parse(fs.readFileSync('./db.json', fileOption).toString());
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './uploads/');
+  },
+  filename: function(req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  // reject a file
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+});
 
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
