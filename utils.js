@@ -28,8 +28,15 @@ export const verifyToken = (token) => {
   return jwt.verify(token, secret_key);
 }
 
-export const authenticateByToken = (req, res, next) => {
+export const authenticateByToken = (req, res) => {
   const bearerToken = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if (!bearerToken) {
+    return res.status(401).json({
+      message: "Authentication failed"
+    });
+  }
+
   const token = bearerToken.replace(/^Bearer\s+/, "");
 
   if (token) {
@@ -44,9 +51,8 @@ export const authenticateByToken = (req, res, next) => {
       // next();
     });
   } else {
-    return res.json({
-      success: false,
-      message: 'Token not provided'
+    return res.status(401).json({
+      message: "Authentication failed"
     });
   }
 }
